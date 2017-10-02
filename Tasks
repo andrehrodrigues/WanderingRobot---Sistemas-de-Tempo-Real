@@ -1,0 +1,12 @@
+
+Tasks: 
+
+( ) Detectar uma linha e segui-la de forma autônoma
+
+( ) Quando há um obstáculo em sua frente, emitir um bipe e um sinal luminoso e desviar do mesmo
+
+( ) Evitar queda de superfícies (por exemplo, cair de uma mesa)
+
+( ) Detectar contato com objetos, e ativar rotina de emergência caso isso aconteça
+
+(X) Manutenção da velocidade utilizando um controle PID para observar e ajustar o desempenho dos motores para que o movimento seja conforme o esperado
