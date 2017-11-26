@@ -12,8 +12,7 @@ void taskLineFollowing() {
 
   if(OptRefLeft == 1 && OptRefRight == 1 && OptRefMiddle == 1){
     FLAG = 4;
-  }
-  if(OptRefLeft == 0 && OptRefRight == 1 && OptRefMiddle == 1){
+  }else if(OptRefLeft == 0 && OptRefRight == 1 && OptRefMiddle == 1){
     waddle_left();
   }else if(OptRefLeft == 1 && OptRefRight == 0 && OptRefMiddle == 1){
     waddle_right();

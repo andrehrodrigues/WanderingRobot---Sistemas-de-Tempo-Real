@@ -112,8 +112,14 @@ void loop() {
 /********** Task Functions **********/
 void taskDrift(){
   if(FLAG > 0){
+    stopMotors();
     turnAround();
   }
+}
+
+void stopMotors(){
+  motorRight->run(RELEASE);
+  motorLeft->run(RELEASE);
 }
 
 void turnAround(){
