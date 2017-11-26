@@ -70,12 +70,20 @@ void setup() {
   Serial.print("Tasks for Arduino - Scheduler example\n\n");
 
   /* Create a schedule with 3 tasks */
-  Schedule.begin(3);
+  Schedule.begin(6);
 
-  /* Add the LED tasks to the schedule */
-  Schedule.addTask("SONAR 1", taskSonar1, 0, 5000);
+ /* Add the tasks to the schedule */
+  Schedule.addTask("SONAR_QUEDA", taskSonarQueda, 0, 5000);
   Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("SONAR2", taskSonar2, 1000, 8000);
+  Schedule.addTask("SONAR_OBSTACULO", taskSonarObstaculo, 1000, 8000);
+  Serial.print(Schedule.lastAddedTask());
+  Schedule.addTask("BUMPER", taskBumpers, 1000, 8000);
+  Serial.print(Schedule.lastAddedTask());
+  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 1000, 8000);
+  Serial.print(Schedule.lastAddedTask());
+  Schedule.addTask("PD", taskPD, 1000, 8000);
+  Serial.print(Schedule.lastAddedTask());
+  Schedule.addTask("Gerenciador Aperiodicos", taskDrift, 1000, 8000);
   Serial.print(Schedule.lastAddedTask());
 
   /* The status is output every 100 'ticks', offset by 1 'tick' */
@@ -94,83 +102,21 @@ void setup() {
     Serial.println("Ticks too long");
   }
 
-  
-  
 }
 
 /* It's best not to do anything in loop() except runTasks() - doing anything else here will affect timing */
 void loop() {
-  
+  Schedule.runTasks();
 }
 
 /********** Task Functions **********/
-
-void taskSonarObstaculo() {
-  // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
-  // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
-  digitalWrite(trigPin1, LOW);
-  delayMicroseconds(5);
-  digitalWrite(trigPin1, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin1, LOW);
-
-  // Read the signal from the sensor: a HIGH pulse whose
-  // duration is the time (in microseconds) from the sending
-  // of the ping to the reception of its echo off of an object.
-  pinMode(echoPin1, INPUT);
-  duration = pulseIn(echoPin1, HIGH);
-
-  // convert the time into a distance
-  cm = (duration / 2) / 29.1;
-
-  if(cm < 5){
-    FLAG = 1;
+void taskDrift(){
+  if(FLAG > 0){
+    turnAround();
   }
 }
 
-void taskSonarQueda() {
-  // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
-  // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
-  digitalWrite(trigPin2, LOW);
-  delayMicroseconds(5);
-  digitalWrite(trigPin2, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin2, LOW);
-
-  // Read the signal from the sensor: a HIGH pulse whose
-  // duration is the time (in microseconds) from the sending
-  // of the ping to the reception of its echo off of an object.
-  pinMode(echoPin2, INPUT);
-  duration = pulseIn(echoPin2, HIGH);
-
-  // convert the time into a distance
-  cm = (duration / 2) / 29.1;
-
-  if(cm > 4){
-    FLAG = 1;
-  } 
-}
-
-void taskBumpers(){
-  //BUMPER READ
-  bumperDireito = digitalRead(digPinBumper1);
-  bumperEsquerdo = digitalRead(digPinBumper2);
-
-  if(bumperDireito == 0 || bumperEsquerdo == 0){
-    FLAG = 1;
-  } 
-
-}
-
-void taskLineFollowing(){
-
-}
-
-void taskPD(){
-  
-}
-
-void taskDrift(){
+void turnAround(){
 
 }
 

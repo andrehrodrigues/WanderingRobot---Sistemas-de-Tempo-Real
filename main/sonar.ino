@@ -1,4 +1,4 @@
-void taskSonar1() {
+void taskSonarObstaculo() {
   // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
   digitalWrite(trigPin1, LOW);
@@ -16,14 +16,15 @@ void taskSonar1() {
   // convert the time into a distance
   cm = (duration / 2) / 29.1;
 
-  Serial.println("SONAR 1");
-  Serial.print(cm);
-  Serial.print("cm");
-  Serial.println();
-  delay(500);
+  Serial.print("SONAR QUEDA: ");
+  Serial.println(cm);
+
+  if(cm < 5){
+    FLAG = 1;
+  }
 }
 
-void taskSonar2() {
+void taskSonarQueda() {
   // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
   digitalWrite(trigPin2, LOW);
@@ -40,11 +41,11 @@ void taskSonar2() {
 
   // convert the time into a distance
   cm = (duration / 2) / 29.1;
-  inches = (duration / 2) / 74;
 
-  Serial.println("SONAR 2");
-  Serial.print(cm);
-  Serial.print("cm");
-  Serial.println();
-  delay(500);
+  Serial.print("SONAR QUEDA: ");
+  Serial.println(cm);
+
+  if(cm > 5){
+    FLAG = 1;
+  } 
 }
