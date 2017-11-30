@@ -1,0 +1,98 @@
+\documentclass[10pt, a4paper]{article}
+\usepackage[margin=4.2cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\doublespacing
+\usepackage[hidelinks]{hyperref}
+\usepackage{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{matrix}
+\iffalse
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{clickable}
+\fi
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{sidecap}
+\usepackage{multicol}
+%\usepackage{dsfont}
+%\usepackage{lipsum}
+
+\author{
+	\textbf{André Rodrigues, Germano Leite, Juliana Nunes}
+}
+
+
+\title{ \textbf{Projeto Final de Curso}}
+
+\date{}
+
+\renewcommand{\figurename}{Figura}
+\renewcommand{\tablename}{Tabela}
+\renewcommand\refname{Referências}
+
+\tikzstyle{state}=[shape=circle,draw=blue!50,fill=blue!20,minimum size=1.0cm]
+\tikzstyle{smallstate}=[shape=circle,draw=blue!50,fill=blue!20,minimum size=0.5cm]
+\tikzstyle{observation}=[shape=rectangle,draw=orange!50,fill=orange!20]
+\tikzstyle{lightedge}=[<-,dashed]
+\tikzstyle{mainstate}=[state,thick]
+\tikzstyle{mainedge}=[<-,thick]
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Introdução}
+	\label{sec:introducao}
+	\input{introducao}
+
+\section{Construção do Robô}
+	\label{sec:trabRel}
+	\input{construcao-robo}
+    
+    \section{Tarefas do Robô}
+    \label{sec:workProp}
+    \input{tarefas-robo}
+
+\section{Resultados}
+	\label{sec:objetivos}
+	\input{resultados}
+
+\section{Conclusão}
+	\label{sec:materiais}
+	\input{conclusao}
+    
+
+\newpage
+\begin{thebibliography}{99}
+
+\bibitem{farines}
+    Farines, Jean-Marie, Joni da Silva Fraga, and RS de Oliveira. "Sistemas de tempo real." Escola de Computação 2000 (2000): 201.
+    
+\bibitem{PID}
+Controle PID em sistemas embarcados. Carlos Márcio Freitas. Disponível em: www.embarcados.com.br/controle-pid-em-sistemas-embarcados. Acesso em: 23 ago. 2017.
+
+    
+
+\end{thebibliography}
+
+\end{document}
+
