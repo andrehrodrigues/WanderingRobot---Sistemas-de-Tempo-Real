@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.11.19)  29 NOV 2017 23:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.11.19)  29 NOV 2017 23:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1051,7 +1051,7 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 29.
 
-[6] [7]) (./resultados.tex <images/pista.png, id=113, 1084.05pt x 565.36218pt>
+[6] [7]) (./resultados.tex <images/pista.png, id=114, 1084.05pt x 565.36218pt>
 File: images/pista.png Graphic file (type png)
 
 <use images/pista.png>
@@ -1082,10 +1082,10 @@ e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
 ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on relatorio.pdf (10 pages, 13012855 bytes).
+Output written on relatorio.pdf (10 pages, 13012909 bytes).
 PDF statistics:
- 162 PDF objects out of 1000 (max. 8388607)
- 124 compressed objects within 2 object streams
+ 163 PDF objects out of 1000 (max. 8388607)
+ 125 compressed objects within 2 object streams
  33 named destinations out of 1000 (max. 500000)
  130 words of extra memory for PDF output out of 10000 (max. 10000000)
 
