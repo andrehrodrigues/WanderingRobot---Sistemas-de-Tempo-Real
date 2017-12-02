@@ -1,0 +1,76 @@
+Nas duas subseções seguintes nós detalhamos as tarefas que o robô executará e como elas foram implementadas.
+
+\subsection{Tarefas e Periodicidade}
+
+Uma tarefa de tempo real, além da correção lógica, deve satisfazer seus prazos e restrições temporais. As restrições temporais, as relações de precedência e de exclusão usualmente impostas sobre tarefas são determinantes na definição de um modelo de tarefas que é parte integrante de um problema de escalonamento. 
+
+Para que se tenha um comportamento temporal adequado, todas as tarefas de tempo real tipicamente estão sujeitas a prazos (deadlines). A princípio, uma tarefa deve ser concluída antes do seu deadline. As consequências de uma tarefa ser concluída após o seu deadline define dois tipos de tarefas de tempo real:
+
+\begin{itemize}
+	
+	\item  \textbf{Tarefa Crítica}, quando ao ser completada depois de seu deadline pode causar falhas catastróficas no sistema de tempo real e em seu ambiente.
+	
+	\item \textbf{Tarefa Não-crítica}, quando ao ser completada depois de seu deadline no máximo implica numa diminuição de desempenho do sistema. 
+	
+\end{itemize}
+
+Outra característica temporal de tarefas em sistemas de tempo real está baseada na periodicidade de suas atividades. Os modelos comportam dois tipos de tarefas neste aspecto, são eles:
+
+\begin{itemize}
+	
+	\item \textbf{Tarefa Periódica}:  Tarefa que possui periodicidade de ativação (e não de execução) constante;
+	
+	\item \textbf{Tarefa Aperiódica}: Tarefa cujo intervalo de tempo entre ativações conse- cutivas não tem nenhum mínimo definido. Para poder ser considerada a utilização de tarefas aperiódicas em sistemas de tempo real, torna-se necessário impor um limite superior à sua utilização de recursos computacionais.
+	
+\end{itemize}
+
+Na Tabela \ref{tabela} apresentamos as tarefas a serem implementadas juntamente com seus requisitos temporais.
+
+\begin{table}[]
+	\centering
+	\caption{Tarefas e seus requisitos temporais}
+	\label{tabela}
+	\begin{tabular}{|c|l|c|c|c|}
+		\hline
+		\textbf{N°} & \multicolumn{1}{c|}{\textbf{Tarefa}}                                                            & \textbf{Modelo}                                                 & \textbf{\begin{tabular}[c]{@{}c@{}}Tempo de \\ Execução\\ (segundos)\end{tabular}} & \textbf{Prioridade} \\ \hline
+		1           & Andar                                                                                           & \begin{tabular}[c]{@{}c@{}}Não crítica\\ Periódica\end{tabular} &                                                                                    &                     \\ \hline
+		2           & Detectar e seguir uma linha                                                                     & \begin{tabular}[c]{@{}c@{}}Não crítica\\ Periódica\end{tabular} &                                                                                    &                     \\ \hline
+		3           & Verificar obstáculo                                                                             & \begin{tabular}[c]{@{}c@{}}Não crítica\\ Periódica\end{tabular} &                                                                                    &                     \\ \hline
+		4           & \begin{tabular}[c]{@{}l@{}}Manutenção da velocidade \\ utilizando um controle PID\end{tabular} & \begin{tabular}[c]{@{}c@{}}Não crítica\\ Periódica\end{tabular} &                                                                                    &                     \\ \hline
+		5           & Verificar superície                                                                             & \begin{tabular}[c]{@{}c@{}}Não Crítica\\ Periódica\end{tabular} &                                                                                    &                     \\ \hline
+		6           & \begin{tabular}[c]{@{}l@{}}Detectar contato com \\ objetos\end{tabular}                         & \begin{tabular}[c]{@{}c@{}}Não crítica\\ Periódica\end{tabular} &                                                                                    &                     \\ \hline
+		7           & Desviar de obstáculos                                                                            & \begin{tabular}[c]{@{}c@{}}Crítica\\ Aperiódica\end{tabular}    &                                                                                    &                     \\ \hline
+		8           & Evitar queda de superfícies                                                                     & \begin{tabular}[c]{@{}c@{}}Crítica\\ Aperiódica\end{tabular}    &                                                                                    &                     \\ \hline
+		9           & \begin{tabular}[c]{@{}l@{}}Em caso de contato com \\ objeto, afastar do mesmo\end{tabular}     & \begin{tabular}[c]{@{}c@{}}Crítica\\ Aperiódica\end{tabular}    &                                                                                    &                     \\ \hline
+	\end{tabular}
+\end{table}
+
+\newpage
+
+\subsection{Implementação e Escalonamento das Tarefas}
+
+Nesta seção mostraremos como as tarefas apresentadas na seção 3.1 foram implementadas. A primeira etapa foi verificar se existia algum algoritmo de escalonamento presente na literatura que se adaptasse ao nosso projeto. O algoritmo \textit{Rate Monotonic}, bastante conhecido, é um algoritmo que possui características que se adequam ao nosso projeto, portanto, usamos este algoritmo como base para implementação do nosso código.
+
+As principais características do algoritmo \textit{Rate Monotonic} são:
+
+\begin{itemize}
+	
+	\item As tarefas são periódicas e independentes;
+	
+	\item O deadline de cada tarefa coincide com o seu período;
+	
+	\item O tempo de computação de cada tarefa é conhecido e constante (\textit{Worst Case Computation Time});
+	
+	\item O tempo de chaveamento entre tarefas é assumido nulo;
+	
+	\item Dá maior prioridade às tarefas de menor período.
+	
+\end{itemize}
+
+Nossas tarefas são em sua maioria periódicas, porém, três destas tarefas são aperiódicas. Para contornar esta situação e poder fazer uso do algoritmo \textit{Rate Monotonic} nós criamos um servidor de tarefas aperiódicas. Este servidor, é tratado como uma tarefa periódica. 
+
+O algoritmo funciona da seguinte maneira: Todas as tarefas periódicas são executadas por tempo pré-definido, inclusive a tarefa referente ao servidor de aperiódicas. Para controle de execução das tarefa aperiódicas têm-se uma variável booleana global que auxilia para execução ou não de uma tarefa aperiódica. Este controle funciona da seguinte forma: Quando as tarefas \textbf{Verificar obstáculo}, \textbf{Detectar contato} e \textbf{Verificar superfície} são executadas elas retornam um valor. De acordo com o valor retornado, a variável booleana global  recebe o valor \textit{True} (por exemplo,  a variável booleana está setada como \textit{False}, se ao executar a tarefa de \textbf{Verificar obstáculo} o sensor apresentar um valor que é um valor de risco, esta variável recebe o valor \textit{True}), se ao ser executada a tarefa referente ao servidor de aperiódicos, a variável booleana estiver com valor \textit{True}, a tarefa aperiódica \textbf{Desviar de obstáculos} é executada. Ao final da execução da tarefa aperiódica, a variável booleana recebe o valor \textit{False} novamente.
+
+//Melhorar
+//Colocar pseudo-algoritmo
+
