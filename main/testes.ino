@@ -28,7 +28,8 @@ void testaMotores(){
   motor1.run(FORWARD); 
   // Aciona o motor 2 no sentido anti-horario
   motor2.run(BACKWARD); 
- 
+
+ motor3.run(BACKWARD);
   // Aguarda 5 segundos
   delay(5000);
   Serial.println("PARA MOTORES");
@@ -36,5 +37,6 @@ void testaMotores(){
   // Desliga os 2 motores
   motor1.run(RELEASE); 
   motor2.run(RELEASE); 
+  motor3.run(RELEASE); 
   delay(5000);
 }

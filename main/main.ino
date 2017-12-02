@@ -6,7 +6,8 @@
 #include <AFMotor.h>
 
 // Define o motor1 ligado a conexao 1
-AF_DCMotor motor1(2); 
+AF_DCMotor motor1(2);
+AF_DCMotor motor3(1);  
 // Define o motor2 ligado a conexao 4
 AF_DCMotor motor2(4); 
 
@@ -17,12 +18,12 @@ int trigPin1 = 50;    //Trig - Laranja
 int echoPin1 = 53;    //Echo - Azul
 
 //Sonar para detectar queda
-int trigPin2 = 26;    //Trig - green Jumper
-int echoPin2 = 27;    //Echo - yellow Jumper
+int trigPin2 = 26; // Trig - Laranja
+int echoPin2 = 27; // Echo - Roxo
 
 //Bumpers
-int digPinBumper1 = 22; //Direito 
-int digPinBumper2 = 23; //Esquerdo
+int digPinBumper1 = 22; // Direito - Verde
+int digPinBumper2 = 23; // Esquerdo - Vermelho
 
 //BreakBean
 int portaBBLeft = 43; //Roxo azul e verde
@@ -31,6 +32,7 @@ int portaBBRight = 35; //Vermelho laranja e marrom
 //OpticoReflex
 int portaOptRefRight = 36; // Verde amarelo laranja
 int portaOptRefLeft = 44; // Preto cinza e branco
+int portaOptRefMiddle = 40; // Laranja
 
 int FLAG = 0;
 
@@ -43,6 +45,8 @@ void setup() {
   // Define a velocidade maxima para os motores 1 e 2
   motor1.setSpeed(250); 
   motor2.setSpeed(250); 
+  motor3.setSpeed(250); 
+
 
   //Define bumper
   pinMode(digPinBumper1, INPUT);
@@ -79,9 +83,9 @@ void setup() {
   Serial.print(Schedule.lastAddedTask());
   Schedule.addTask("BUMPER", taskBumpers, 1000, 8000);
   Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 1000, 8000);
+  //Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 1000, 8000);
   Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("PD", taskPD, 1000, 8000);
+//  Schedule.addTask("PD", taskPD, 1000, 8000);
   Serial.print(Schedule.lastAddedTask());
   Schedule.addTask("Gerenciador Aperiodicos", taskDrift, 1000, 8000);
   Serial.print(Schedule.lastAddedTask());
@@ -106,7 +110,8 @@ void setup() {
 
 /* It's best not to do anything in loop() except runTasks() - doing anything else here will affect timing */
 void loop() {
-  Schedule.runTasks();
+  //Schedule.runTasks();
+  testaMotores();
 }
 
 /********** Task Functions **********/
@@ -118,8 +123,8 @@ void taskDrift(){
 }
 
 void stopMotors(){
-  motorRight->run(RELEASE);
-  motorLeft->run(RELEASE);
+  motorRight.run(RELEASE);
+  motorLeft.run(RELEASE);
 }
 
 void turnAround(){

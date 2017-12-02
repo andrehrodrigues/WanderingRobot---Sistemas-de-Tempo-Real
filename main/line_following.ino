@@ -4,8 +4,8 @@ int OptRefRight;
 void taskLineFollowing() {
   Serial.println("Task Line Following");
   
-  motorLeft->setSpeed(potenciaMotor);
-  motorRight->setSpeed(potenciaMotor);
+  motorLeft.setSpeed(potenciaMotor);
+  motorRight.setSpeed(potenciaMotor);
 
   OptRefLeft = digitalRead(portaOptRefLeft);
   OptRefRight = digitalRead(portaOptRefRight);
@@ -22,14 +22,14 @@ void taskLineFollowing() {
 
 void waddle_left() {
 
-  motorRight->run(FORWARD);
-  motorLeft->run(RELEASE);
+  motorRight.run(FORWARD);
+  motorLeft.run(RELEASE);
 }
 
 void waddle_right() {
 
-  motorLeft->run(FORWARD);
-  motorRight->run(RELEASE);
+  motorLeft.run(FORWARD);
+  motorRight.run(RELEASE);
 }
 
 void findLine(){
