@@ -1,42 +1,34 @@
 void testaSonares(){
-  //taskSonar1(); 
-  //taskSonar2();
+  //taskSonarObstaculo();
+  taskSonarQueda();
 }
 
 void testaOptReflex(){
-  Serial.print(digitalRead(portaOptRefLeft)); //FUNCIONANDO
-  Serial.print("  ");
-  Serial.println(digitalRead(portaOptRefRight)); //FUNCIONANDO
+  //Serial.println(digitalRead(portaOptRefLeft));
+  //Serial.println(digitalRead(portaOptRefRight));
+  Serial.println(digitalRead(portaOptRefMiddle));
 }
 
 void testaBumpers(){
-  //BUMPER READ
   Serial.print(digitalRead(digPinBumper1));
   Serial.print("  ");
   Serial.println(digitalRead(digPinBumper2));
 }
 
 void testaBB(){
-  //BB READ
-  Serial.println(digitalRead(portaBBLeft)); 
+  Serial.print(digitalRead(portaBBLeft));
   Serial.print("  ");
   Serial.println(digitalRead(portaBBRight));
 }
 
 void testaMotores(){
-  // Aciona o motor 1 no sentido horario
-  motor1.run(FORWARD); 
-  // Aciona o motor 2 no sentido anti-horario
-  motor2.run(BACKWARD); 
+  motorLeft.run(FORWARD);
+  motorRight.run(FORWARD);
 
- motor3.run(BACKWARD);
-  // Aguarda 5 segundos
-  delay(5000);
-  Serial.println("PARA MOTORES");
+  delay(1000);
 
-  // Desliga os 2 motores
-  motor1.run(RELEASE); 
-  motor2.run(RELEASE); 
-  motor3.run(RELEASE); 
-  delay(5000);
+  motorLeft.run(RELEASE);
+  motorRight.run(RELEASE);
+  
+  stop();
 }

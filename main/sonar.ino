@@ -16,7 +16,7 @@ void taskSonarObstaculo() {
   // convert the time into a distance
   cm = (duration / 2) / 29.1;
 
-  Serial.print("SONAR QUEDA: ");
+  Serial.print("SONAR OBSTACULO: ");
   Serial.println(cm);
 
   if(cm < 5){

@@ -6,65 +6,67 @@
 #include <AFMotor.h>
 
 // Define o motor1 ligado a conexao 1
-AF_DCMotor motor1(2);
-AF_DCMotor motor3(1);  
+AF_DCMotor motorLeft(2);
 // Define o motor2 ligado a conexao 4
-AF_DCMotor motor2(4); 
+AF_DCMotor motorRight(4); 
 
-//Sonares
+// Sonares
 long duration, cm, inches;
-//Sonar para detectar obstaculo
-int trigPin1 = 50;    //Trig - Laranja
-int echoPin1 = 53;    //Echo - Azul
+// Sonar - Obstaculo
+int trigPin1 = 50;
+int echoPin1 = 53;
+// Sonar - Queda
+int trigPin2 = 26;
+int echoPin2 = 27;
 
-//Sonar para detectar queda
-int trigPin2 = 26; // Trig - Laranja
-int echoPin2 = 27; // Echo - Roxo
+// Bumper
+int digPinBumper1 = 23;
+int digPinBumper2 = 22;
 
-//Bumpers
-int digPinBumper1 = 22; // Direito - Verde
-int digPinBumper2 = 23; // Esquerdo - Vermelho
+// Break Beam
+int portaBBLeft = 43;
+int portaBBRight = 35;
 
-//BreakBean
-int portaBBLeft = 43; //Roxo azul e verde
-int portaBBRight = 35; //Vermelho laranja e marrom
-
-//OpticoReflex
-int portaOptRefRight = 36; // Verde amarelo laranja
-int portaOptRefLeft = 44; // Preto cinza e branco
-int portaOptRefMiddle = 40; // Laranja
+// Optico Reflexivo
+int portaOptRefRight = 33;
+int portaOptRefLeft = 44;
+int portaOptRefMiddle = 40;
 
 int FLAG = 0;
 
 int bumperDireito;
 int bumperEsquerdo;
 
+int potenciaMotor = 150;
+
+void stop(){
+  while(1);
+}
+
 /* Tasks are added to the schedule here in the form addTask(task_function_name, task_period, task_offset) */
 void setup() {
 
   // Define a velocidade maxima para os motores 1 e 2
-  motor1.setSpeed(250); 
-  motor2.setSpeed(250); 
-  motor3.setSpeed(250); 
+  motorLeft.setSpeed(potenciaMotor);
+  motorRight.setSpeed(potenciaMotor);
 
-
-  //Define bumper
+  // Define bumper
   pinMode(digPinBumper1, INPUT);
   digitalWrite(digPinBumper1, HIGH);
   pinMode(digPinBumper2, INPUT);
   digitalWrite(digPinBumper2, HIGH);
 
-  //Sonares
+  // Sonares
   pinMode(trigPin1, OUTPUT);
   pinMode(echoPin1, INPUT);
   pinMode(trigPin2, OUTPUT);
   pinMode(echoPin2, INPUT);
 
-  //BreakBean
+  // Break Beam
   pinMode(portaBBLeft, INPUT);
   pinMode(portaBBRight, INPUT);
   
-  //Optico Reflexivo - Line Following
+  // Optico Reflexivo - Line Following
   pinMode(portaOptRefLeft, INPUT);
   pinMode(portaOptRefRight, INPUT);
   
@@ -111,7 +113,7 @@ void setup() {
 /* It's best not to do anything in loop() except runTasks() - doing anything else here will affect timing */
 void loop() {
   //Schedule.runTasks();
-  testaMotores();
+  turnAround();
 }
 
 /********** Task Functions **********/
@@ -128,7 +130,9 @@ void stopMotors(){
 }
 
 void turnAround(){
-
+  motorLeft.run(FORWARD);
+  delay(3000);
+  motorLeft.run(RELEASE);
 }
 
 /* This task sends the status of the LED pin to the serial port */

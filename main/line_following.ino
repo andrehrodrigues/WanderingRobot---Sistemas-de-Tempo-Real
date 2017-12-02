@@ -1,5 +1,6 @@
 int OptRefLeft;
 int OptRefRight;
+int OptRefMiddle;
 
 void taskLineFollowing() {
   Serial.println("Task Line Following");

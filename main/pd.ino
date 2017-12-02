@@ -1,13 +1,36 @@
-int setspeedR;
-int setspeedL;
-
+float kp = 10;
+float kd = 3;
+float ki = 5;
+float contaFurosLeft;
+float erroLeft;
+float anterior_L;
+float contaFurosRight;
+float erroRight;
+float anterior_R;
+float outputLeft;
+float outputRight;
+float deLeft;
+float deRight;
+float dt = 1000;
+long int newTime;
+long int lastTime;
+int contador_rodaR = 0;
+int contador_rodaL = 0;
+int count_min;
+int count_max;
+int leitura_bbR_antiga;
+int leitura_bbL_antiga;
+int erroLeftlast;
+int erroRightlast;
+float setspeedR;
+float setspeedL;
+int fps = 5;
 int pdBegin;
 
 void taskPD() {
   Serial.println("Task PD");
   odometer();
 }
-
 
 void odometer() {
   motorRight.setSpeed(potenciaMotor);
