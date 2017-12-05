@@ -12,6 +12,8 @@ void taskSonarObstaculo() {
   // of the ping to the reception of its echo off of an object.
   pinMode(echoPin1, INPUT);
   duration = pulseIn(echoPin1, HIGH);
+  Serial.print("duration = ");
+  Serial.println(duration);
 
   // convert the time into a distance
   cm = (duration / 2) / 29.1;

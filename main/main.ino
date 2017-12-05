@@ -37,11 +37,7 @@ int FLAG = 0;
 int bumperDireito;
 int bumperEsquerdo;
 
-int potenciaMotor = 150;
-
-void stop(){
-  while(1);
-}
+int potenciaMotor = 100;
 
 /* Tasks are added to the schedule here in the form addTask(task_function_name, task_period, task_offset) */
 void setup() {
@@ -113,7 +109,8 @@ void setup() {
 /* It's best not to do anything in loop() except runTasks() - doing anything else here will affect timing */
 void loop() {
   //Schedule.runTasks();
-  turnAround();
+  //stop();
+  testaSonares();
 }
 
 /********** Task Functions **********/
@@ -124,15 +121,22 @@ void taskDrift(){
   }
 }
 
-void stopMotors(){
-  motorRight.run(RELEASE);
-  motorLeft.run(RELEASE);
+void stop(){
+  while(1);
 }
 
-void turnAround(){
-  motorLeft.run(FORWARD);
-  delay(3000);
+void stopMotors() {
   motorLeft.run(RELEASE);
+  motorRight.run(RELEASE);
+}
+
+void turnAround() {
+  motorLeft.run(FORWARD);
+  motorRight.run(BACKWARD);
+
+  delay(4200);
+
+  stopMotors();
 }
 
 /* This task sends the status of the LED pin to the serial port */

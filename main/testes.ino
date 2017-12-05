@@ -1,12 +1,14 @@
 void testaSonares(){
-  //taskSonarObstaculo();
-  taskSonarQueda();
+  taskSonarObstaculo();
+  //taskSonarQueda();
 }
 
 void testaOptReflex(){
-  //Serial.println(digitalRead(portaOptRefLeft));
-  //Serial.println(digitalRead(portaOptRefRight));
-  Serial.println(digitalRead(portaOptRefMiddle));
+  Serial.print(digitalRead(portaOptRefLeft));
+  Serial.print("  ");
+  Serial.print(digitalRead(portaOptRefMiddle));
+  Serial.print("  ");
+  Serial.println(digitalRead(portaOptRefRight));
 }
 
 void testaBumpers(){

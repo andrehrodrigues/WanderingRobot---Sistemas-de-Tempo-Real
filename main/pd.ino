@@ -24,19 +24,14 @@ int erroLeftlast;
 int erroRightlast;
 float setspeedR;
 float setspeedL;
-int fps = 5;
+int fps = 50;
 int pdBegin;
 
-void taskPD() {
-  Serial.println("Task PD");
-  odometer();
-}
-
-void odometer() {
+void taskPD(int directionLeftMotor, int directionRightMotor, int executionTime) {
   motorRight.setSpeed(potenciaMotor);
-  motorRight.run(FORWARD);
+  motorRight.run(directionRightMotor);
   motorLeft.setSpeed(potenciaMotor);
-  motorLeft.run(FORWARD);
+  motorLeft.run(directionLeftMotor);
 
   erroRightlast = 0;
   erroLeftlast = 0;
@@ -45,12 +40,16 @@ void odometer() {
   contador_rodaR = 0;
   contador_rodaL = 0;
   lastTime = millis();
-  odometria();
+  odometria(directionLeftMotor, directionRightMotor, executionTime);
 }
 
-void odometria() {
+void odometria(int directionLeftMotor, int directionRightMotor, int executionTime) {
   pdBegin = millis();
-  while (millis() - pdBegin > 1000) {
+  Serial.print("Começo");
+  Serial.println(pdBegin);
+  while (millis() - pdBegin < executionTime) {
+    Serial.print("TEMPO");
+    Serial.println(millis());
     contador_rodaR = 0;
     contador_rodaL = 0;
     leitura_bbR_antiga = digitalRead(27);
@@ -79,15 +78,18 @@ void odometria() {
     outputLeft = kp * erroLeft + kd * deLeft;
     outputRight = kp * erroRight + kd * deRight;
 
-    motorRight.run(RELEASE);
-    motorLeft.run(RELEASE);
+    motorRight.run(directionRightMotor);
+    motorLeft.run(directionLeftMotor);
 
     setspeedR += outputRight ;
     setspeedL += outputLeft;
 
+    Serial.print(setspeedR);
+    Serial.println(setspeedL);
+
     motorRight.setSpeed(setspeedR);
     motorLeft.setSpeed(setspeedL);
-    motorRight.run(FORWARD);
-    motorLeft.run(FORWARD);
+    motorRight.run(directionRightMotor);
+    motorLeft.run(directionLeftMotor);
   }
 }
