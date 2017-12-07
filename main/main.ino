@@ -14,7 +14,7 @@ AF_DCMotor motorRight(4);
 long duration, cm, inches;
 // Sonar - Obstaculo
 int trigPin1 = 48;
-int echoPin1 = 51;
+int echoPin1 = 49;
 // Sonar - Queda
 int trigPin2 = 26;
 int echoPin2 = 27;
@@ -34,7 +34,7 @@ int portaOptRefRight = 33;
 
 int FLAG = 0;
 
-int potenciaMotor = 100;
+int potenciaMotor = 70;
 
 unsigned long tempo;
 unsigned long tempo2;
@@ -72,21 +72,25 @@ void setup() {
   Serial.print("Tasks for Arduino - Scheduler example\n\n");
 
   /* Create a schedule with 3 tasks */
-  Schedule.begin(3);
+  Schedule.begin(6);
 
  /* Add the tasks to the schedule */
-  //Schedule.addTask("SONAR_QUEDA", taskSonarQueda, 0, 4000);
-  //Serial.print(Schedule.lastAddedTask());
+  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 0, 12);
+  Serial.print(Schedule.lastAddedTask());
+  Schedule.addTask("SONAR_QUEDA", taskSonarQueda, 4, 12);
+  Serial.print(Schedule.lastAddedTask());
+  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 6, 12);
+  Serial.print(Schedule.lastAddedTask());
+  Schedule.addTask("BUMPER", taskBumpers, 8, 12);
+  Serial.print(Schedule.lastAddedTask());
+  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 10, 12);
+  Serial.print(Schedule.lastAddedTask());
   //Schedule.addTask("SONAR_OBSTACULO", taskSonarObstaculo, 300, 4000);
   //Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 0, 10);
+  Schedule.addTask("Gerenciador de aperiodicos", taskGerenciadorAperiodicos, 12, 12);
   Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("BUMPER", taskBumpers, 2, 10);
-  Serial.print(Schedule.lastAddedTask());
-  //Schedule.addTask("PD", taskPD, 2000, 3000);
+  //Schedule.addTask("PD", taskPD, 1000, 5000);
   //Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("Gerenciador de aperiodicos", taskGerenciadorAperiodicos, 4, 10, TIMING_FORCED);
-  Serial.print(Schedule.lastAddedTask());
 
   /* Starting the scheduler with a tick length of 1 millisecond */
   Schedule.startTicks(1);
@@ -104,7 +108,8 @@ void setup() {
 
 /* It's best not to do anything in loop() except runTasks() - doing anything else here will affect timing */
 void loop() {
-  Schedule.runTasks();
+  testaSonares();
+  //Schedule.runTasks();
 }
 
 void stop(){

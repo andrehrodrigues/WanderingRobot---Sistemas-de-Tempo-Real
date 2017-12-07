@@ -50,9 +50,9 @@ void taskPD() {
 }
 
 void odometria(int directionLeftMotor, int directionRightMotor, int executionTime) {
-  pdBegin = millis();
+  //pdBegin = millis();
   Serial.println("Executando PD");
-  while (millis() - pdBegin < executionTime) {
+  //while (millis() - pdBegin < executionTime) {
     contador_rodaR = 0;
     contador_rodaL = 0;
     leitura_bbR_antiga = digitalRead(portaBBLeft);
@@ -91,5 +91,5 @@ void odometria(int directionLeftMotor, int directionRightMotor, int executionTim
     motorLeft.setSpeed(setspeedL);
     motorRight.run(FORWARD);
     motorLeft.run(FORWARD);
-  }
+  //}
 }

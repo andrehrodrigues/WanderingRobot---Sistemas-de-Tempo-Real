@@ -1,6 +1,6 @@
 void testaSonares(){
-  //taskSonarObstaculo();
-  taskSonarQueda();
+  taskSonarObstaculo();
+  //taskSonarQueda();
 }
 
 void testaOptReflex() {
@@ -27,7 +27,7 @@ void testaMotores(){
   motorLeft.run(FORWARD);
   motorRight.run(FORWARD);
 
-  delay(1000);
+  delay(10000);
 
   motorLeft.run(RELEASE);
   motorRight.run(RELEASE);

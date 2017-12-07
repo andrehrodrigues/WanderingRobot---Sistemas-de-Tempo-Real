@@ -3,14 +3,21 @@ int OptRefMiddle;
 int OptRefRight;
 
 void taskLineFollowing() {
-  //Serial.println("LINE FOLLOWING");
+  
   //Serial.print("Início: ");
   //Serial.println(millis());
   if (FLAG > 0) return;
-
+  Serial.println("LINE FOLLOWING");
+  
   OptRefLeft = digitalRead(portaOptRefLeft);
   OptRefMiddle = digitalRead(portaOptRefMiddle);
   OptRefRight = digitalRead(portaOptRefRight);
+
+  //Serial.print(OptRefLeft);
+  //Serial.print("  ");
+  //Serial.print(OptRefMiddle);
+  //Serial.print("  ");
+  //Serial.println(OptRefRight);
 
   if (OptRefLeft == 0 && OptRefMiddle == 1 && OptRefRight == 1) {
     waddle_left();
