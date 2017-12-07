@@ -13,31 +13,31 @@ AF_DCMotor motorRight(4);
 // Sonares
 long duration, cm, inches;
 // Sonar - Obstaculo
-int trigPin1 = 50;
-int echoPin1 = 53;
+int trigPin1 = 48;
+int echoPin1 = 51;
 // Sonar - Queda
 int trigPin2 = 26;
 int echoPin2 = 27;
 
 // Bumper
-int digPinBumper1 = 23;
-int digPinBumper2 = 22;
+int digPinBumperEsquerdo = 23;
+int digPinBumperDireito = 22;
 
 // Break Beam
 int portaBBLeft = 43;
 int portaBBRight = 35;
 
 // Optico Reflexivo
-int portaOptRefRight = 33;
 int portaOptRefLeft = 44;
 int portaOptRefMiddle = 40;
+int portaOptRefRight = 33;
 
 int FLAG = 0;
 
-int bumperDireito;
-int bumperEsquerdo;
-
 int potenciaMotor = 100;
+
+unsigned long tempo;
+unsigned long tempo2;
 
 /* Tasks are added to the schedule here in the form addTask(task_function_name, task_period, task_offset) */
 void setup() {
@@ -46,11 +46,11 @@ void setup() {
   motorLeft.setSpeed(potenciaMotor);
   motorRight.setSpeed(potenciaMotor);
 
-  // Define bumper
-  pinMode(digPinBumper1, INPUT);
-  digitalWrite(digPinBumper1, HIGH);
-  pinMode(digPinBumper2, INPUT);
-  digitalWrite(digPinBumper2, HIGH);
+  // Bumper
+  pinMode(digPinBumperEsquerdo, INPUT);
+  digitalWrite(digPinBumperEsquerdo, HIGH);
+  pinMode(digPinBumperDireito, INPUT);
+  digitalWrite(digPinBumperDireito, HIGH);
 
   // Sonares
   pinMode(trigPin1, OUTPUT);
@@ -72,24 +72,20 @@ void setup() {
   Serial.print("Tasks for Arduino - Scheduler example\n\n");
 
   /* Create a schedule with 3 tasks */
-  Schedule.begin(6);
+  Schedule.begin(3);
 
  /* Add the tasks to the schedule */
-  Schedule.addTask("SONAR_QUEDA", taskSonarQueda, 0, 5000);
+  //Schedule.addTask("SONAR_QUEDA", taskSonarQueda, 0, 4000);
+  //Serial.print(Schedule.lastAddedTask());
+  //Schedule.addTask("SONAR_OBSTACULO", taskSonarObstaculo, 300, 4000);
+  //Serial.print(Schedule.lastAddedTask());
+  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 0, 10);
   Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("SONAR_OBSTACULO", taskSonarObstaculo, 1000, 8000);
+  Schedule.addTask("BUMPER", taskBumpers, 2, 10);
   Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("BUMPER", taskBumpers, 1000, 8000);
-  Serial.print(Schedule.lastAddedTask());
-  //Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 1000, 8000);
-  Serial.print(Schedule.lastAddedTask());
-//  Schedule.addTask("PD", taskPD, 1000, 8000);
-  Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("Gerenciador Aperiodicos", taskDrift, 1000, 8000);
-  Serial.print(Schedule.lastAddedTask());
-
-  /* The status is output every 100 'ticks', offset by 1 'tick' */
-  Schedule.addTask("PRINT...", statusOut, 10, 3000);
+  //Schedule.addTask("PD", taskPD, 2000, 3000);
+  //Serial.print(Schedule.lastAddedTask());
+  Schedule.addTask("Gerenciador de aperiodicos", taskGerenciadorAperiodicos, 4, 10, TIMING_FORCED);
   Serial.print(Schedule.lastAddedTask());
 
   /* Starting the scheduler with a tick length of 1 millisecond */
@@ -108,35 +104,11 @@ void setup() {
 
 /* It's best not to do anything in loop() except runTasks() - doing anything else here will affect timing */
 void loop() {
-  //Schedule.runTasks();
-  //stop();
-  testaSonares();
-}
-
-/********** Task Functions **********/
-void taskDrift(){
-  if(FLAG > 0){
-    stopMotors();
-    turnAround();
-  }
+  Schedule.runTasks();
 }
 
 void stop(){
   while(1);
-}
-
-void stopMotors() {
-  motorLeft.run(RELEASE);
-  motorRight.run(RELEASE);
-}
-
-void turnAround() {
-  motorLeft.run(FORWARD);
-  motorRight.run(BACKWARD);
-
-  delay(4200);
-
-  stopMotors();
 }
 
 /* This task sends the status of the LED pin to the serial port */

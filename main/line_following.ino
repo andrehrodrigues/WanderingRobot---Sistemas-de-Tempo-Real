@@ -1,38 +1,53 @@
 int OptRefLeft;
-int OptRefRight;
 int OptRefMiddle;
+int OptRefRight;
 
 void taskLineFollowing() {
-  motorLeft.run(FORWARD);
-  motorRight.run(FORWARD);
+  //Serial.println("LINE FOLLOWING");
+  //Serial.print("Início: ");
+  //Serial.println(millis());
+  if (FLAG > 0) return;
 
   OptRefLeft = digitalRead(portaOptRefLeft);
-  OptRefRight = digitalRead(portaOptRefRight);
   OptRefMiddle = digitalRead(portaOptRefMiddle);
+  OptRefRight = digitalRead(portaOptRefRight);
 
-  if(OptRefLeft == 0 && OptRefRight == 0 && OptRefMiddle == 0){
-    FLAG = 4;
-  }else if(OptRefLeft == 0 && OptRefRight == 1 && OptRefMiddle == 1){
-    waddle_right();
-  }else if(OptRefLeft == 1 && OptRefRight == 0 && OptRefMiddle == 1){
+  if (OptRefLeft == 0 && OptRefMiddle == 1 && OptRefRight == 1) {
     waddle_left();
+  } else if (OptRefLeft == 0 && OptRefMiddle == 0 && OptRefRight == 1) {
+    waddle_left();
+  } else if (OptRefLeft == 1 && OptRefMiddle == 1 && OptRefRight == 0) {
+    waddle_right();
+  } else if (OptRefLeft == 1 && OptRefMiddle == 0 && OptRefRight == 0) {
+    waddle_right();
+  } else {
+    go_straight();
   }
+  //Serial.print("Fim: ");
+  //Serial.println(millis());
 }
 
 void go_straight() {
-  motorRight.run(FORWARD);
   motorLeft.run(FORWARD);
+  motorRight.run(FORWARD);
 }
 
 void waddle_left() {
-  motorRight.run(FORWARD);
-  motorLeft.run(RELEASE);
-}
-
-void waddle_right() {
   motorLeft.run(FORWARD);
   motorRight.run(RELEASE);
 }
 
-void findLine(){
+void waddle_right() {
+  motorLeft.run(RELEASE);
+  motorRight.run(FORWARD);
+}
+
+void turn_left() {
+  motorLeft.run(FORWARD);
+  motorRight.run(BACKWARD);
+}
+
+void turn_right() {
+  motorLeft.run(BACKWARD);
+  motorRight.run(FORWARD);
 }

@@ -1,4 +1,5 @@
 void taskSonarObstaculo() {
+  Serial.println("SONAR OBSTÁCULO");
   // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
   digitalWrite(trigPin1, LOW);
@@ -27,6 +28,7 @@ void taskSonarObstaculo() {
 }
 
 void taskSonarQueda() {
+  Serial.println("SONAR QUEDA");
   // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
   digitalWrite(trigPin2, LOW);

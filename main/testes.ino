@@ -1,9 +1,9 @@
 void testaSonares(){
-  taskSonarObstaculo();
-  //taskSonarQueda();
+  //taskSonarObstaculo();
+  taskSonarQueda();
 }
 
-void testaOptReflex(){
+void testaOptReflex() {
   Serial.print(digitalRead(portaOptRefLeft));
   Serial.print("  ");
   Serial.print(digitalRead(portaOptRefMiddle));
@@ -11,10 +11,10 @@ void testaOptReflex(){
   Serial.println(digitalRead(portaOptRefRight));
 }
 
-void testaBumpers(){
-  Serial.print(digitalRead(digPinBumper1));
+void testaBumpers() {
+  Serial.print(digitalRead(digPinBumperEsquerdo));
   Serial.print("  ");
-  Serial.println(digitalRead(digPinBumper2));
+  Serial.println(digitalRead(digPinBumperDireito));
 }
 
 void testaBB(){

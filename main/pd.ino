@@ -24,14 +24,20 @@ int erroLeftlast;
 int erroRightlast;
 float setspeedR;
 float setspeedL;
-int fps = 50;
-int pdBegin;
+int fps = 5;
+unsigned long pdBegin;
 
-void taskPD(int directionLeftMotor, int directionRightMotor, int executionTime) {
+void taskPD() {
+  Serial.println("PD");
+  if(FLAG > 0) return;
+  
+  //int directionLeftMotor, int directionRightMotor, int executionTime
   motorRight.setSpeed(potenciaMotor);
-  motorRight.run(directionRightMotor);
+  //motorRight.run(directionRightMotor);
+  motorRight.run(FORWARD);
   motorLeft.setSpeed(potenciaMotor);
-  motorLeft.run(directionLeftMotor);
+  //motorLeft.run(directionLeftMotor);
+  motorLeft.run(FORWARD);
 
   erroRightlast = 0;
   erroLeftlast = 0;
@@ -40,32 +46,29 @@ void taskPD(int directionLeftMotor, int directionRightMotor, int executionTime) 
   contador_rodaR = 0;
   contador_rodaL = 0;
   lastTime = millis();
-  odometria(directionLeftMotor, directionRightMotor, executionTime);
+  odometria(FORWARD, FORWARD, 1000);
 }
 
 void odometria(int directionLeftMotor, int directionRightMotor, int executionTime) {
   pdBegin = millis();
-  Serial.print("Começo");
-  Serial.println(pdBegin);
+  Serial.println("Executando PD");
   while (millis() - pdBegin < executionTime) {
-    Serial.print("TEMPO");
-    Serial.println(millis());
     contador_rodaR = 0;
     contador_rodaL = 0;
-    leitura_bbR_antiga = digitalRead(27);
-    leitura_bbL_antiga = digitalRead(31);
+    leitura_bbR_antiga = digitalRead(portaBBLeft);
+    leitura_bbL_antiga = digitalRead(portaBBRight);
     lastTime = millis();
     while ((millis() - lastTime) < dt) {
-      if (leitura_bbR_antiga != digitalRead(27)) {
-        leitura_bbR_antiga = digitalRead(27);
+      if (leitura_bbR_antiga != digitalRead(portaBBRight)) {
+        leitura_bbR_antiga = digitalRead(portaBBRight);
         contador_rodaR ++;
       }
-      if (leitura_bbL_antiga != digitalRead(31)) {
-        leitura_bbL_antiga = digitalRead(31);
+      if (leitura_bbL_antiga != digitalRead(portaBBLeft)) {
+        leitura_bbL_antiga = digitalRead(portaBBLeft);
         contador_rodaL ++;
       }
     }
-
+    
     erroLeft = fps - contador_rodaL;//((1 / dt) * 1000);
     erroRight = fps - contador_rodaR; //- ((1 / dt) * 1000);
 
@@ -78,18 +81,15 @@ void odometria(int directionLeftMotor, int directionRightMotor, int executionTim
     outputLeft = kp * erroLeft + kd * deLeft;
     outputRight = kp * erroRight + kd * deRight;
 
-    motorRight.run(directionRightMotor);
-    motorLeft.run(directionLeftMotor);
+    motorRight.run(RELEASE);
+    motorLeft.run(RELEASE);
 
     setspeedR += outputRight ;
     setspeedL += outputLeft;
 
-    Serial.print(setspeedR);
-    Serial.println(setspeedL);
-
     motorRight.setSpeed(setspeedR);
     motorLeft.setSpeed(setspeedL);
-    motorRight.run(directionRightMotor);
-    motorLeft.run(directionLeftMotor);
+    motorRight.run(FORWARD);
+    motorLeft.run(FORWARD);
   }
 }
