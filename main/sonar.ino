@@ -3,7 +3,7 @@ void taskSonarObstaculo() {
   // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
   // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
   digitalWrite(trigPin1, LOW);
-  delayMicroseconds(5);
+  delayMicroseconds(2);
   digitalWrite(trigPin1, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPin1, LOW);
@@ -11,11 +11,13 @@ void taskSonarObstaculo() {
   // Read the signal from the sensor: a HIGH pulse whose
   // duration is the time (in microseconds) from the sending
   // of the ping to the reception of its echo off of an object.
-  pinMode(echoPin1, INPUT);
   duration = pulseIn(echoPin1, HIGH);
+  Serial.println("Duration: ");
+  Serial.println(duration);
 
   // convert the time into a distance
-  cm = (duration / 2) / 29.1;
+//  cm = (duration / 2) / 29.1;
+    cm = duration*0.034/2;
 
   Serial.print("SONAR OBSTACULO: ");
   Serial.println(cm);
@@ -24,11 +26,11 @@ void taskSonarObstaculo() {
     FLAG = 1;
   }
 }
-
+//
 void taskSonarQueda() {
   Serial.println("SONAR QUEDA");
-  // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
-  // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
+//  // The sensor is triggered by a HIGH pulse of 10 or more microseconds.
+//  // Give a short LOW pulse beforehand to ensure a clean HIGH pulse:
   digitalWrite(trigPin2, LOW);
   delayMicroseconds(5);
   digitalWrite(trigPin2, HIGH);
@@ -47,8 +49,7 @@ void taskSonarQueda() {
   Serial.print("SONAR QUEDA: ");
   Serial.println(cm);
 
-  if(cm > 5){
-    Serial.println("SETOU FLAG ===============================================================");
+  if(cm > 4){
     FLAG = 1;
   } 
 }

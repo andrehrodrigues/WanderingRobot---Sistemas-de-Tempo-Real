@@ -33,6 +33,6 @@ void goBackwards() {
 void turnAround() {
   motorLeft.run(FORWARD);
   motorRight.run(BACKWARD);
-  delay(8000);
+  delay(5500);
   Serial.print("DELAAAY ");
 }

@@ -1,6 +1,6 @@
 void testaSonares(){
-  taskSonarObstaculo();
-  //taskSonarQueda();
+  //taskSonarObstaculo();
+  taskSonarQueda();
 }
 
 void testaOptReflex() {

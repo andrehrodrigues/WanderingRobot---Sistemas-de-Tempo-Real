@@ -41,11 +41,11 @@ void go_straight() {
 
 void waddle_left() {
   motorLeft.run(FORWARD);
-  motorRight.run(RELEASE);
+  motorRight.run(BACKWARD);
 }
 
 void waddle_right() {
-  motorLeft.run(RELEASE);
+  motorLeft.run(BACKWARD);
   motorRight.run(FORWARD);
 }
 

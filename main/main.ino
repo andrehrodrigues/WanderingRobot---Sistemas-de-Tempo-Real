@@ -10,21 +10,21 @@ AF_DCMotor motorLeft(2);
 // Define o motor2 ligado a conexao 4
 AF_DCMotor motorRight(4); 
 
-// Sonares
+//// Sonares
 long duration, cm, inches;
-// Sonar - Obstaculo
-int trigPin1 = 48;
-int echoPin1 = 49;
-// Sonar - Queda
-int trigPin2 = 26;
-int echoPin2 = 27;
+//// Sonar - Obstaculo
+int trigPin1 = 50;
+int echoPin1 = 51;
+//// Sonar - Queda
+int trigPin2 = 48;
+int echoPin2 = 49;
 
 // Bumper
-int digPinBumperEsquerdo = 23;
-int digPinBumperDireito = 22;
+int digPinBumperEsquerdo = 22;
+int digPinBumperDireito = 23;
 
 // Break Beam
-int portaBBLeft = 43;
+int portaBBLeft = 41;
 int portaBBRight = 35;
 
 // Optico Reflexivo
@@ -61,8 +61,8 @@ void setup() {
   // Break Beam
   pinMode(portaBBLeft, INPUT);
   pinMode(portaBBRight, INPUT);
-  
-  // Optico Reflexivo - Line Following
+//  
+//  // Optico Reflexivo - Line Following
   pinMode(portaOptRefLeft, INPUT);
   pinMode(portaOptRefRight, INPUT);
   
@@ -72,24 +72,26 @@ void setup() {
   Serial.print("Tasks for Arduino - Scheduler example\n\n");
 
   /* Create a schedule with 3 tasks */
-  Schedule.begin(6);
+  Schedule.begin(8);
 
  /* Add the tasks to the schedule */
-  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 0, 12);
+  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 0, 21);
   Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("SONAR_QUEDA", taskSonarQueda, 4, 12);
+  Schedule.addTask("SONAR_QUEDA", taskSonarQueda, 3, 21);
   Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 6, 12);
+  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 6, 21);
   Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("BUMPER", taskBumpers, 8, 12);
+  Schedule.addTask("BUMPER", taskBumpers, 9, 21);
   Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 10, 12);
+  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 12, 21);
   Serial.print(Schedule.lastAddedTask());
-  //Schedule.addTask("SONAR_OBSTACULO", taskSonarObstaculo, 300, 4000);
-  //Serial.print(Schedule.lastAddedTask());
-  Schedule.addTask("Gerenciador de aperiodicos", taskGerenciadorAperiodicos, 12, 12);
+  Schedule.addTask("SONAR_OBSTACULO", taskSonarObstaculo, 15, 21);
   Serial.print(Schedule.lastAddedTask());
-  //Schedule.addTask("PD", taskPD, 1000, 5000);
+  Schedule.addTask("LINEFOLLOWING", taskLineFollowing, 18, 21);
+  Serial.print(Schedule.lastAddedTask());
+  Schedule.addTask("Gerenciador de aperiodicos", taskGerenciadorAperiodicos, 21, 21);
+  Serial.print(Schedule.lastAddedTask());
+//  Schedule.addTask("PD", taskPD, 1000, 5000);
   //Serial.print(Schedule.lastAddedTask());
 
   /* Starting the scheduler with a tick length of 1 millisecond */
@@ -109,7 +111,11 @@ void setup() {
 /* It's best not to do anything in loop() except runTasks() - doing anything else here will affect timing */
 void loop() {
   testaSonares();
-  //Schedule.runTasks();
+//  testaOptReflex();
+//  testaBumpers();
+//  testaBB();
+//  testaMotores();
+//  Schedule.runTasks();
 }
 
 void stop(){
